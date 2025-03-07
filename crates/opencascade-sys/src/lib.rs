@@ -1018,6 +1018,18 @@ pub mod ffi {
             surface: &HandleGeomSurface,
         ) -> UniquePtr<GeomAPI_ProjectPointOnSurf>;
         pub fn LowerDistanceParameters(self: &GeomAPI_ProjectPointOnSurf, u: &mut f64, v: &mut f64);
+        #[cxx_name = "try_nearest_point"]
+        pub fn GeomAPI_ProjectPointOnSurf_NearestPoint(
+            projector: &GeomAPI_ProjectPointOnSurf,
+        ) -> Result<UniquePtr<gp_Pnt>>;
+
+        type GeomAPI_ProjectPointOnCurve;
+        #[cxx_name = "construct_unique"]
+        pub fn GeomAPI_ProjectPointOnCurve_ctor(
+            origin: &gp_Pnt,
+            curve: &HandleGeomCurve,
+        ) -> UniquePtr<GeomAPI_ProjectPointOnCurve>;
+        pub fn LowerDistanceParameter(self: &GeomAPI_ProjectPointOnCurve) -> f64;
 
         // Transforms
         type gp_Trsf;
@@ -1393,4 +1405,3 @@ unsafe impl Send for ffi::TopoDS_Shell {}
 unsafe impl Send for ffi::TopoDS_Solid {}
 unsafe impl Send for ffi::TopoDS_Compound {}
 unsafe impl Send for ffi::TopoDS_Shape {}
-

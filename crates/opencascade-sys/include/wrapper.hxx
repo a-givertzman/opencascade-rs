@@ -47,6 +47,7 @@
 #include <Geom2d_Ellipse.hxx>
 #include <Geom2d_TrimmedCurve.hxx>
 #include <GeomAPI_Interpolate.hxx>
+#include <GeomAPI_ProjectPointOnCurve.hxx>
 #include <GeomAPI_ProjectPointOnSurf.hxx>
 #include <GeomAbs_CurveType.hxx>
 #include <GeomAbs_JoinType.hxx>
@@ -299,6 +300,10 @@ inline const TopoDS_Face &try_cast_TopoDS_to_face(const TopoDS_Shape &shape) { r
 inline const TopoDS_Shell &try_cast_TopoDS_to_shell(const TopoDS_Shape &shape) { return TopoDS::Shell(shape); }
 inline const TopoDS_Solid &try_cast_TopoDS_to_solid(const TopoDS_Shape &shape) { return TopoDS::Solid(shape); }
 inline const TopoDS_Compound &try_cast_TopoDS_to_compound(const TopoDS_Shape &shape) { return TopoDS::Compound(shape); }
+
+inline std::unique_ptr<gp_Pnt> try_nearest_point(const GeomAPI_ProjectPointOnSurf &projector) {
+  return std::unique_ptr<gp_Pnt>(new gp_Pnt(projector.NearestPoint()));
+}
 
 // Compound shapes
 inline std::unique_ptr<TopoDS_Shape> TopoDS_Compound_as_shape(std::unique_ptr<TopoDS_Compound> compound) {

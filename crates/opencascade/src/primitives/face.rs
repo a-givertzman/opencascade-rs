@@ -276,6 +276,17 @@ impl Face {
         dvec3(center.X(), center.Y(), center.Z())
     }
 
+    pub fn project(&self, point: &Vertex) -> Result<Vertex, cxx::Exception> {
+        let projector = ffi::GeomAPI_ProjectPointOnSurf_ctor(
+            &ffi::BRep_Tool_Pnt(&point.inner),
+            &ffi::BRep_Tool_Surface(&self.inner),
+        );
+        ffi::GeomAPI_ProjectPointOnSurf_NearestPoint(&projector).map(|point| {
+            let vertex_maker = &mut ffi::BRepBuilderAPI_MakeVertex_gp_Pnt(&point);
+            Vertex::from_vertex(vertex_maker.pin_mut().Vertex())
+        })
+    }
+
     pub fn normal_at(&self, pos: DVec3) -> DVec3 {
         let surface = ffi::BRep_Tool_Surface(&self.inner);
         let projector = ffi::GeomAPI_ProjectPointOnSurf_ctor(&make_point(pos), &surface);
