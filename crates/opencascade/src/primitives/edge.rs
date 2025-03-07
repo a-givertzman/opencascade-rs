@@ -3,7 +3,7 @@ use cxx::UniquePtr;
 use glam::{dvec3, DVec3};
 use opencascade_sys::ffi;
 
-use super::{make_vec, Shape};
+use super::{make_vec, IntoShape, Shape, Vertex};
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub enum EdgeType {
@@ -164,6 +164,30 @@ impl Edge {
         let curve = ffi::BRepAdaptor_Curve_ctor(&self.inner);
 
         EdgeType::from(curve.GetType())
+    }
+
+    pub fn center_of_mass(&self) -> DVec3 {
+        let mut props = ffi::GProp_GProps_ctor();
+
+        let inner_shape = ffi::cast_edge_to_shape(&self.inner);
+        ffi::BRepGProp_SurfaceProperties(inner_shape, props.pin_mut());
+
+        let center = ffi::GProp_GProps_CentreOfMass(&props);
+
+        dvec3(center.X(), center.Y(), center.Z())
+    }
+
+    pub fn rotated(self, origin: Vertex, rotation_axis: DVec3, rad: f64) -> Self {
+        let shape = self.into_shape().rotated(origin, rotation_axis, rad);
+        let face = ffi::TopoDS_cast_to_edge(&shape.inner);
+        Self::from_edge(face)
+    }
+
+    pub fn translated(self, translation: DVec3) -> Self {
+        let mut shape = self.into_shape();
+        shape.set_global_translation(translation);
+        let face = ffi::TopoDS_cast_to_edge(&shape.inner);
+        Self::from_edge(face)
     }
 }
 
