@@ -2,14 +2,13 @@
 name = "occt-sys"
 description = "Static build of the C++ OpenCascade CAD Kernel for use as a Rust dependency"
 authors = [
-  "Artem Novikov <novartole@gmail.com>",
   "Brian Schwind <brianmschwind@gmail.com>",
   "Matěj Laitl <matej@laitl.cz>",
 ]
 license = "LGPL-2.1"
 version = "0.5.1"
-edition = "2021"
-repository = "https://github.com/novartole/opencascade-rs"
+edition = "2024"
+repository = "https://github.com/a-givertzman/opencascade-rs"
 
 # Reduce the crate size so we can publish on crates.io.
 # Sorted by file size

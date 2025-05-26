@@ -2,13 +2,12 @@
 name = "opencascade"
 description = "A high level Rust wrapper to build 3D models in code, using the OpenCascade CAD kernel"
 authors = [
-  "Artem Novikov <novartole@gmail.com>",
   "Brian Schwind <brianmschwind@gmail.com>",
 ]
 license = "LGPL-2.1"
 version = "0.2.0"
-edition = "2021"
-repository = "https://github.com/novartole/opencascade-rs"
+edition = "2024"
+repository = "https://github.com/a-givertzman/opencascade-rs"
 
 [dependencies]
 cxx = "1"

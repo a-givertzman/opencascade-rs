@@ -30,4 +30,5 @@ fn main() {
         .build();
 
     println!("cargo:rustc-env=OCCT_PATH={}", dst.to_str().expect("path is valid Unicode"));
+    println!("cargo:rerun-if-changed=OCCT");
 }

@@ -92,7 +92,7 @@ impl OcctConfig {
         // Add path to builtin OCCT
         #[cfg(feature = "builtin")]
         {
-            std::env::set_var("DEP_OCCT_ROOT", occt_sys::occt_path().as_os_str());
+            unsafe { std::env::set_var("DEP_OCCT_ROOT", occt_sys::occt_path().as_os_str()); }
         }
 
         let dst =
