@@ -6,7 +6,7 @@ edition = "2024"
 [dependencies]
 clap = { version = "4", features = ["derive"] }
 opencascade = { version = "0.2", path = "../crates/opencascade", default-features = false }
-glam = { version = "0.24", features = ["bytemuck"] }
+glam = { version = "0.30", features = ["bytemuck"] }
 
 [features]
 default = ["builtin"]
