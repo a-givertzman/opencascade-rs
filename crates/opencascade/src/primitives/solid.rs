@@ -149,19 +149,18 @@ impl Solid {
     }
 
     pub fn volume(&self) -> f64 {
-        let mut props = ffi::GProp_GProps_ctor();
-
-        let inner_shape = ffi::cast_solid_to_shape(&self.inner);
-        ffi::BRepGProp_VolumeProperties(inner_shape, props.pin_mut());
-
-        // Returns volume
-        props.Mass()
+        self.volume_data().0
     }
     ///
     /// Returns center of mass / volume
     /// 
     /// Считаем что плотность распределена равномерно, равна 1т на куб и тогда обьем, масса и их центры совпадают.
     pub fn center_of_mass(&self) -> DVec3 {
+        self.volume_data().1
+    }
+    ///
+    /// Returns (volume, center of mass / volume)
+    pub fn volume_data(&self) -> (f64, DVec3) {
         let mut props = ffi::GProp_GProps_ctor();
 
         let inner_shape = ffi::cast_solid_to_shape(&self.inner);
@@ -169,6 +168,6 @@ impl Solid {
 
         let center = ffi::GProp_GProps_CentreOfMass(&props);
 
-        dvec3(center.X(), center.Y(), center.Z())
+        (props.Mass(), dvec3(center.X(), center.Y(), center.Z()))
     }
 }
